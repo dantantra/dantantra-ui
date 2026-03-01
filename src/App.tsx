@@ -15,6 +15,7 @@ const CLINIC_ADDRESS = "Kotha Road, Bhagta Bhai Ka, District - Bathinda, Punjab"
 const CLINIC_PHONE = "+91 7743000367"
 const CLINIC_PHONE_RAW = "917743000367"
 const CLINIC_EMAIL = "info.dantantra@gmail.com"
+const BASE = import.meta.env.BASE_URL
 const PF: React.CSSProperties = { fontFamily: 'Poppins, sans-serif' }
 
 interface Service { icon: React.ReactNode; title: string; description: string }
@@ -120,8 +121,8 @@ function Navbar() {
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Dantantra Logo" className="w-10 h-10" />
-          <span className="font-bold text-xl text-teal-800" style={PF}>{CLINIC_NAME}</span>
+                    <img src={BASE + 'logo.svg'} alt="Dantantra Logo" className="w-10 h-10" />
+                    <span className="font-bold text-xl text-teal-800" style={PF}>{CLINIC_NAME}</span>
         </a>
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map(l => (
@@ -158,7 +159,7 @@ function Navbar() {
 function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20">
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/hero-dental.jpg)' }}>
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${BASE}images/hero-dental.jpg)` }}>
         <div className="absolute inset-0 bg-gradient-to-r from-teal-900/90 via-teal-800/80 to-teal-700/60" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20">
@@ -191,7 +192,7 @@ function About() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
             <img
-              src="/images/about-doctor.jpg"
+              src={BASE + 'images/about-doctor.jpg'}
               alt={"" + DOCTOR_NAME + " - Prosthodontist and Implantologist"}
               className="rounded-2xl shadow-xl w-full object-cover"
               style={{ height: '480px' }}
@@ -782,8 +783,8 @@ function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.svg" alt="Dantantra Logo" className="w-10 h-10" />
-              <span className="font-bold text-xl text-white" style={PF}>{CLINIC_NAME}</span>
+                            <img src={BASE + 'logo.svg'} alt="Dantantra Logo" className="w-10 h-10" />
+                            <span className="font-bold text-xl text-white" style={PF}>{CLINIC_NAME}</span>
             </div>
             <p className="text-sm leading-relaxed mb-4">
               {CLINIC_NAME} provides expert dental care in Bathinda. We offer complete treatments from routine checkups to implants and smile makeovers using advanced technology in a comfortable environment.
