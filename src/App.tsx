@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   Phone, Mail, MapPin, Clock, Menu, X, ChevronLeft, ChevronRight,
@@ -19,7 +19,6 @@ const BASE = import.meta.env.BASE_URL
 const PF: React.CSSProperties = { fontFamily: 'Poppins, sans-serif' }
 
 interface Service { icon: React.ReactNode; title: string; description: string }
-interface Testimonial { name: string; treatment: string; quote: string; rating: number }
 interface FAQ { question: string; answer: string }
 
 const services: Service[] = [
@@ -43,13 +42,6 @@ const treatmentCategories = [
   { title: "Emergency Dental Care", items: ["Toothache Pain Relief", "Knocked-Out Tooth Treatment", "Broken Tooth Repair", "Abscess Drainage", "Same-Day Emergency Visits"] },
 ]
 
-const testimonials: Testimonial[] = [
-  { name: "Harpreet Singh", treatment: "Dental Implants", quote: "Dr. Rashmeet Kaur gave me the confidence to smile again. The implant procedure was painless and the results are phenomenal. Highly recommend Dantantra!", rating: 5 },
-  { name: "Simran Kaur", treatment: "Root Canal Treatment", quote: "I was terrified of RCT but Dr. Rashmeet made it completely painless. The clinic is so clean and modern. Best dental experience I have ever had!", rating: 5 },
-  { name: "Rajinder Sharma", treatment: "Complete Dentures", quote: "After years of struggling with ill-fitting dentures, Dantantra gave me perfectly crafted ones. I can eat and speak normally again. Thank you, Doctor!", rating: 5 },
-  { name: "Manpreet Kaur", treatment: "Teeth Whitening", quote: "Amazing results from just one session! My teeth are several shades brighter. The staff is friendly and professional. Will definitely come back.", rating: 5 },
-  { name: "Gurpreet Singh", treatment: "Invisible Braces", quote: "Got clear aligners from Dantantra and nobody even noticed I was wearing them! My teeth are perfectly straight now. Excellent treatment!", rating: 5 },
-]
 
 const faqs: FAQ[] = [
   { question: "Are dental implants painful?", answer: "Modern dental implants are placed under local anesthesia, making the procedure virtually painless. Most patients report less discomfort than a tooth extraction. Post-procedure, any mild soreness is easily managed with prescribed medication." },
@@ -88,15 +80,6 @@ function SectionHeading({ title, subtitle }: { title: string; subtitle?: string 
   )
 }
 
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-1 justify-center">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} className={cn("w-4 h-4", i < rating ? "fill-amber-400 text-amber-400" : "text-gray-300")} />
-      ))}
-    </div>
-  )
-}
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -111,7 +94,6 @@ function Navbar() {
     { label: "About", href: "#about" },
     { label: "Services", href: "#services" },
     { label: "Treatments", href: "#treatments" },
-    { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
   ]
   return (
@@ -198,10 +180,6 @@ function About() {
               style={{ height: '480px' }}
               onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/600x700/0D7377/ffffff?text=Dr.+Rashmeet+Kaur' }}
             />
-            <div className="absolute -bottom-6 -right-6 bg-amber-500 text-white p-6 rounded-2xl shadow-lg hidden md:block">
-              <p className="text-3xl font-bold">10+</p>
-              <p className="text-sm">Years of Excellence</p>
-            </div>
           </div>
           <div>
             <p className="text-amber-500 font-semibold text-sm tracking-wider uppercase mb-2">About Us</p>
@@ -211,7 +189,7 @@ function About() {
               At {CLINIC_NAME}, we pride ourselves on delivering exceptional, personalized dental care to restore your smile with precision and expertise. {DOCTOR_NAME} specializes in state-of-the-art dental implants and prosthodontic solutions, ensuring natural-looking, long-lasting results for patients of all ages.
             </p>
             <p className="text-gray-600 mb-8 leading-relaxed">
-              With over a decade of experience and advanced training in implantology and prosthodontics, {DOCTOR_NAME} combines cutting-edge technology with a compassionate approach to make every dental visit comfortable and stress-free.
+              {DOCTOR_NAME} combines cutting-edge technology with a compassionate approach to make every dental visit comfortable and stress-free.
             </p>
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
@@ -224,7 +202,7 @@ function About() {
               </div>
               <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
                 <Clock className="w-6 h-6 text-teal-700 flex-shrink-0" />
-                <span className="text-gray-700 font-medium text-sm">10+ Years Experience</span>
+                <span className="text-gray-700 font-medium text-sm">Experienced Professional</span>
               </div>
               <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
                 <Heart className="w-6 h-6 text-teal-700 flex-shrink-0" />
@@ -331,53 +309,6 @@ function WhyChooseUs() {
   )
 }
 
-function Testimonials() {
-  const [current, setCurrent] = useState(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const next = () => setCurrent((p) => (p + 1) % testimonials.length)
-  const prev = () => setCurrent((p) => (p - 1 + testimonials.length) % testimonials.length)
-  useEffect(() => {
-    const iv = setInterval(next, 5000)
-    return () => clearInterval(iv)
-  }, [])
-  return (
-    <section id="testimonials" className="py-20 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <SectionHeading title="What Our Patients Say" subtitle="Real stories from real patients who trust us with their smiles." />
-        <div className="relative" ref={containerRef}>
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg text-center border border-gray-100">
-            <StarRating rating={testimonials[current].rating} />
-            <blockquote className="mt-6 mb-6">
-              <p className="text-gray-700 text-lg leading-relaxed italic">
-                &ldquo;{testimonials[current].quote}&rdquo;
-              </p>
-            </blockquote>
-            <p className="font-semibold text-gray-800 text-lg" style={PF}>{testimonials[current].name}</p>
-            <p className="text-amber-600 text-sm font-medium">{testimonials[current].treatment}</p>
-          </div>
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button onClick={prev} className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-teal-50 hover:border-teal-300 transition-colors" aria-label="Previous testimonial">
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
-            </button>
-            <div className="flex gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={cn("w-2.5 h-2.5 rounded-full transition-colors", i === current ? "bg-teal-700" : "bg-gray-300")}
-                  aria-label={"Go to testimonial " + (i + 1)}
-                />
-              ))}
-            </div>
-            <button onClick={next} className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-teal-50 hover:border-teal-300 transition-colors" aria-label="Next testimonial">
-              <ChevronRight className="w-5 h-5 text-gray-600" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 function CTABanner() {
   return (
@@ -867,7 +798,6 @@ function App() {
       <Services />
       <WhatWeTreat />
       <WhyChooseUs />
-      <Testimonials />
       <CTABanner />
       <BookAppointment />
       <Contact />
