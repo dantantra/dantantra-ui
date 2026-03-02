@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   Phone, Mail, MapPin, Clock, Menu, X, ChevronLeft, ChevronRight,
-  Star, Heart, Award, Cpu, ClipboardList, IndianRupee, Smile,
+  Heart, Award, Cpu, ClipboardList, IndianRupee, Smile,
   Stethoscope, Sparkles, Baby, Siren, Wrench, Eye, ShieldCheck,
   Calendar, ChevronDown, ChevronUp, MessageCircle, Send
 } from 'lucide-react'
