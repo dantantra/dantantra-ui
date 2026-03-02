@@ -74,7 +74,7 @@ function SectionHeading({ title, subtitle }: { title: string; subtitle?: string 
   return (
     <div className="text-center mb-12">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={PF}>{title}</h2>
-      <div className="w-20 h-1 bg-amber-500 mx-auto mb-4 rounded-full" />
+      <div className="w-20 h-1 bg-purple-400 mx-auto mb-4 rounded-full" />
       {subtitle && <p className="text-gray-600 max-w-2xl mx-auto text-lg">{subtitle}</p>}
     </div>
   )
@@ -104,13 +104,13 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-2">
                     <img src={BASE + 'logo.svg'} alt="Dantantra Logo" className="w-10 h-10" />
-                    <span className="font-bold text-xl text-teal-800" style={PF}>{CLINIC_NAME}</span>
+                    <span className="font-bold text-xl text-purple-800" style={PF}>{CLINIC_NAME}</span>
         </a>
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map(l => (
-            <a key={l.href} href={l.href} className="text-gray-700 hover:text-teal-700 font-medium transition-colors text-sm">{l.label}</a>
+            <a key={l.href} href={l.href} className="text-gray-700 hover:text-purple-700 font-medium transition-colors text-sm">{l.label}</a>
           ))}
-          <a href="#book" className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-md hover:shadow-lg">
+          <a href="#book" className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-md hover:shadow-lg">
             Book Appointment
           </a>
         </nav>
@@ -123,12 +123,12 @@ function Navbar() {
           <nav className="flex flex-col p-4 gap-3">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setIsMobileOpen(false)}
-                className="text-gray-700 hover:text-teal-700 font-medium py-2 px-4 rounded-lg hover:bg-teal-50 transition-colors">
+                className="text-gray-700 hover:text-purple-700 font-medium py-2 px-4 rounded-lg hover:bg-purple-50 transition-colors">
                 {l.label}
               </a>
             ))}
             <a href="#book" onClick={() => setIsMobileOpen(false)}
-              className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-semibold text-center transition-all mt-2">
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full font-semibold text-center transition-all mt-2">
               Book Appointment
             </a>
           </nav>
@@ -142,19 +142,19 @@ function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center pt-20">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${BASE}images/hero-dental.jpg)` }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-900/90 via-teal-800/80 to-teal-700/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-800/80 to-purple-700/60" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20">
         <div className="max-w-2xl">
-          <p className="text-amber-400 font-semibold text-lg mb-3 tracking-wide">Rooted in Care. Crafted for Confidence.</p>
+          <p className="text-purple-300 font-semibold text-lg mb-3 tracking-wide">Rooted in Care. Crafted for Confidence.</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight" style={PF}>
             Advanced Dental Implant &amp; Prosthodontic Solutions
           </h1>
-          <p className="text-teal-100 text-lg md:text-xl mb-8 leading-relaxed">
+          <p className="text-purple-100 text-lg md:text-xl mb-8 leading-relaxed">
             Personalized care to restore your smile with precision, expertise, and compassion at {CLINIC_NAME}, Bathinda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a href="#book" className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-lg hover:shadow-xl text-center">
+            <a href="#book" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-lg hover:shadow-xl text-center">
               Book Appointment
             </a>
             <a href="#services" className="border-2 border-white/50 hover:border-white text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:bg-white/10 text-center">
@@ -178,13 +178,13 @@ function About() {
               alt={"" + DOCTOR_NAME + " - Prosthodontist and Implantologist"}
               className="rounded-2xl shadow-xl w-full object-cover"
               style={{ height: '480px' }}
-              onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/600x700/0D7377/ffffff?text=Dr.+Rashmeet+Kaur' }}
+              onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/600x700/7C3AED/ffffff?text=Dr.+Rashmeet+Kaur' }}
             />
           </div>
           <div>
-            <p className="text-amber-500 font-semibold text-sm tracking-wider uppercase mb-2">About Us</p>
+            <p className="text-purple-600 font-semibold text-sm tracking-wider uppercase mb-2">About Us</p>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={PF}>Meet {DOCTOR_NAME}</h2>
-            <p className="text-teal-700 font-semibold text-lg mb-4">{DOCTOR_TITLE}</p>
+            <p className="text-purple-700 font-semibold text-lg mb-4">{DOCTOR_TITLE}</p>
             <p className="text-gray-600 mb-6 leading-relaxed">
               At {CLINIC_NAME}, we pride ourselves on delivering exceptional, personalized dental care to restore your smile with precision and expertise. {DOCTOR_NAME} specializes in state-of-the-art dental implants and prosthodontic solutions, ensuring natural-looking, long-lasting results for patients of all ages.
             </p>
@@ -192,24 +192,24 @@ function About() {
               {DOCTOR_NAME} combines cutting-edge technology with a compassionate approach to make every dental visit comfortable and stress-free.
             </p>
             <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
-                <Award className="w-6 h-6 text-teal-700 flex-shrink-0" />
+              <div className="flex items-center gap-3 bg-purple-50 p-4 rounded-xl">
+                <Award className="w-6 h-6 text-purple-700 flex-shrink-0" />
                 <span className="text-gray-700 font-medium text-sm">BDS, MDS (Prosthodontics)</span>
               </div>
-              <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
-                <Wrench className="w-6 h-6 text-teal-700 flex-shrink-0" />
+              <div className="flex items-center gap-3 bg-purple-50 p-4 rounded-xl">
+                <Wrench className="w-6 h-6 text-purple-700 flex-shrink-0" />
                 <span className="text-gray-700 font-medium text-sm">Implant Specialist</span>
               </div>
-              <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
-                <Clock className="w-6 h-6 text-teal-700 flex-shrink-0" />
+              <div className="flex items-center gap-3 bg-purple-50 p-4 rounded-xl">
+                <Clock className="w-6 h-6 text-purple-700 flex-shrink-0" />
                 <span className="text-gray-700 font-medium text-sm">Experienced Professional</span>
               </div>
-              <div className="flex items-center gap-3 bg-teal-50 p-4 rounded-xl">
-                <Heart className="w-6 h-6 text-teal-700 flex-shrink-0" />
+              <div className="flex items-center gap-3 bg-purple-50 p-4 rounded-xl">
+                <Heart className="w-6 h-6 text-purple-700 flex-shrink-0" />
                 <span className="text-gray-700 font-medium text-sm">Patient-First Approach</span>
               </div>
             </div>
-            <blockquote className="border-l-4 border-amber-500 pl-4 italic text-gray-600">
+            <blockquote className="border-l-4 border-purple-500 pl-4 italic text-gray-600">
               &ldquo;Your smile is our signature. Every patient deserves personalized care and the confidence that comes with a healthy, beautiful smile.&rdquo;
             </blockquote>
           </div>
@@ -226,9 +226,9 @@ function Services() {
         <SectionHeading title="Our Specializations" subtitle="Comprehensive dental solutions tailored to your unique needs, delivered with precision and care." />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 hover:border-teal-200">
-              <div className="w-14 h-14 bg-teal-50 group-hover:bg-teal-700 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300">
-                <div className="text-teal-700 group-hover:text-white transition-colors duration-300">{s.icon}</div>
+            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 hover:border-purple-200">
+              <div className="w-14 h-14 bg-purple-50 group-hover:bg-purple-700 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300">
+                <div className="text-purple-700 group-hover:text-white transition-colors duration-300">{s.icon}</div>
               </div>
               <h3 className="font-semibold text-lg text-gray-800 mb-2" style={PF}>{s.title}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">{s.description}</p>
@@ -254,14 +254,14 @@ function WhatWeTreat() {
                 className="w-full flex items-center justify-between p-5 bg-white hover:bg-gray-50 transition-colors"
               >
                 <span className="font-semibold text-gray-800" style={PF}>{cat.title}</span>
-                {openIndex === index ? <ChevronUp className="w-5 h-5 text-teal-700" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
+                {openIndex === index ? <ChevronUp className="w-5 h-5 text-purple-700" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
               </button>
               {openIndex === index && (
                 <div className="px-5 pb-5">
                   <ul className="grid sm:grid-cols-2 gap-2">
                     {cat.items.map((item, i) => (
                       <li key={i} className="flex items-center gap-2 text-gray-600 text-sm">
-                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0" />
+                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full flex-shrink-0" />
                         {item}
                       </li>
                     ))}
@@ -286,21 +286,21 @@ function WhyChooseUs() {
     { icon: <Smile className="w-7 h-7" />, title: "Warm Environment", desc: "Friendly staff and comfortable clinic" },
   ]
   return (
-    <section className="py-20 bg-teal-800">
+    <section className="py-20 bg-purple-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={PF}>Why Choose {CLINIC_NAME}?</h2>
-          <div className="w-20 h-1 bg-amber-500 mx-auto mb-4 rounded-full" />
-          <p className="text-teal-200 max-w-2xl mx-auto text-lg">We combine expertise, technology, and compassion to deliver exceptional dental care.</p>
+          <div className="w-20 h-1 bg-purple-400 mx-auto mb-4 rounded-full" />
+          <p className="text-purple-200 max-w-2xl mx-auto text-lg">We combine expertise, technology, and compassion to deliver exceptional dental care.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f, i) => (
-            <div key={i} className="bg-teal-700/50 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-teal-700 transition-colors border border-teal-600/30">
-              <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <div className="text-amber-400">{f.icon}</div>
+            <div key={i} className="bg-purple-700/50 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-purple-700 transition-colors border border-purple-600/30">
+              <div className="w-14 h-14 bg-purple-400/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <div className="text-purple-300">{f.icon}</div>
               </div>
               <h3 className="font-semibold text-white mb-2" style={PF}>{f.title}</h3>
-              <p className="text-teal-200 text-sm">{f.desc}</p>
+              <p className="text-purple-200 text-sm">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -312,16 +312,16 @@ function WhyChooseUs() {
 
 function CTABanner() {
   return (
-    <section className="py-16 bg-gradient-to-r from-teal-800 to-teal-700">
+    <section className="py-16 bg-gradient-to-r from-purple-800 to-purple-700">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-4" style={PF}>
           Book Your Pain-Free Dental Consultation Today!
         </h2>
-        <p className="text-teal-200 mb-8 text-lg">
+        <p className="text-purple-200 mb-8 text-lg">
           Take the first step towards your perfect smile. Schedule your appointment now.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="#book" className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-lg hover:shadow-xl">
+          <a href="#book" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-lg hover:shadow-xl">
             Reserve Your Slot Now
           </a>
           <a href={"tel:" + CLINIC_PHONE} className="border-2 border-white/50 hover:border-white text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:bg-white/10 flex items-center justify-center gap-2">
@@ -418,10 +418,10 @@ function BookAppointment() {
     const sel = selectedDate && isSameDay(day, selectedDate)
     const dis = isDateDisabled(day)
     const sun = day.getDay() === 0
-    if (sel) return "py-2.5 rounded-lg text-sm font-medium transition-all bg-teal-700 text-white shadow-md"
+    if (sel) return "py-2.5 rounded-lg text-sm font-medium transition-all bg-purple-700 text-white shadow-md"
     if (dis && sun) return "py-2.5 rounded-lg text-sm font-medium transition-all text-red-300 cursor-not-allowed"
     if (dis) return "py-2.5 rounded-lg text-sm font-medium transition-all text-gray-300 cursor-not-allowed"
-    return "py-2.5 rounded-lg text-sm font-medium transition-all text-gray-700 hover:bg-teal-100"
+    return "py-2.5 rounded-lg text-sm font-medium transition-all text-gray-700 hover:bg-purple-100"
   }
 
   return (
@@ -487,8 +487,8 @@ function BookAppointment() {
                         className={cn(
                           "py-2 px-2 rounded-lg text-xs font-medium transition-all",
                           selectedTime === slot
-                            ? "bg-amber-500 text-white shadow-md"
-                            : "bg-white border border-gray-200 text-gray-700 hover:border-amber-400"
+                            ? "bg-purple-600 text-white shadow-md"
+                            : "bg-white border border-gray-200 text-gray-700 hover:border-purple-400"
                         )}
                       >
                         {slot}
@@ -502,22 +502,22 @@ function BookAppointment() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                 <input type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all" placeholder="Your full name" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all" placeholder="Your full name" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
                 <input type="tel" required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all" placeholder="+91 XXXXX XXXXX" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all" placeholder="+91 XXXXX XXXXX" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
                 <input type="email" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all" placeholder="you@example.com" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all" placeholder="you@example.com" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Treatment Needed *</label>
                 <select required value={formData.treatment} onChange={e => setFormData({...formData, treatment: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all bg-white">
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all bg-white">
                   <option value="">Select a treatment</option>
                   <option value="Dental Implant">Dental Implant</option>
                   <option value="Root Canal Treatment">Root Canal Treatment</option>
@@ -534,11 +534,11 @@ function BookAppointment() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Additional Message</label>
                 <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all resize-none" placeholder="Any specific concerns or requests..." />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all resize-none" placeholder="Any specific concerns or requests..." />
               </div>
               {selectedDate && selectedTime && (
-                <div className="bg-teal-50 border border-teal-200 p-4 rounded-xl">
-                  <p className="text-teal-800 font-medium flex items-center gap-2">
+                <div className="bg-purple-50 border border-purple-200 p-4 rounded-xl">
+                  <p className="text-purple-800 font-medium flex items-center gap-2">
                     <Calendar className="w-4 h-4" />Selected: {formatDate(selectedDate)} at {selectedTime}
                   </p>
                 </div>
@@ -546,7 +546,7 @@ function BookAppointment() {
               <button
                 type="submit"
                 disabled={isSubmitting || !selectedDate || !selectedTime}
-                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold text-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold text-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending...</>
@@ -593,7 +593,7 @@ function Contact() {
         <SectionHeading title="Contact Us" subtitle="Get in touch with us for any queries. We are here to help!" />
         <div className="grid lg:grid-cols-2 gap-8">
           <div>
-            <div className="bg-amber-500 rounded-2xl p-8 text-white mb-6">
+            <div className="bg-purple-600 rounded-2xl p-8 text-white mb-6">
               <h3 className="font-bold text-xl mb-6" style={PF}>{CLINIC_NAME} Dental Clinic</h3>
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
@@ -612,7 +612,7 @@ function Contact() {
             </div>
             <div className="bg-white rounded-2xl p-6 border border-gray-200">
               <h3 className="font-semibold text-lg text-gray-800 mb-4 flex items-center gap-2" style={PF}>
-                <Clock className="w-5 h-5 text-teal-700" />Opening Hours
+                <Clock className="w-5 h-5 text-purple-700" />Opening Hours
               </h3>
               <div className="space-y-2">
                 {openingHours.map(h => (
@@ -641,24 +641,24 @@ function Contact() {
                 <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-6 rounded-xl text-center">
                   <p className="font-semibold">Message sent successfully!</p>
                   <p className="text-sm mt-1">We will get back to you soon.</p>
-                  <button type="button" onClick={() => setSent(false)} className="mt-3 text-teal-700 underline text-sm">Send another message</button>
+                  <button type="button" onClick={() => setSent(false)} className="mt-3 text-purple-700 underline text-sm">Send another message</button>
                 </div>
               ) : (
                 <form onSubmit={handleContactSubmit} className="space-y-3">
                   <input type="text" required value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm" placeholder="Full Name *" />
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm" placeholder="Full Name *" />
                   <div className="grid grid-cols-2 gap-3">
                     <input type="email" required value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm" placeholder="Email *" />
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm" placeholder="Email *" />
                     <input type="tel" required value={contactForm.phone} onChange={e => setContactForm({...contactForm, phone: e.target.value})}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm" placeholder="Phone *" />
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm" placeholder="Phone *" />
                   </div>
                   <input type="text" value={contactForm.subject} onChange={e => setContactForm({...contactForm, subject: e.target.value})}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm" placeholder="Subject" />
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm" placeholder="Subject" />
                   <textarea required value={contactForm.message} onChange={e => setContactForm({...contactForm, message: e.target.value})} rows={3}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm resize-none" placeholder="Your message *" />
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-sm resize-none" placeholder="Your message *" />
                   <button type="submit" disabled={sending}
-                    className="w-full bg-teal-700 hover:bg-teal-800 text-white py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
+                    className="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
                     {sending ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
@@ -685,7 +685,7 @@ function FAQSection() {
                 className="w-full flex items-center justify-between p-5 bg-white hover:bg-gray-50 transition-colors text-left"
               >
                 <span className="font-medium text-gray-800 pr-4">{faq.question}</span>
-                {openIndex === index ? <ChevronUp className="w-5 h-5 text-teal-700 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />}
+                {openIndex === index ? <ChevronUp className="w-5 h-5 text-purple-700 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />}
               </button>
               {openIndex === index && (
                 <div className="px-5 pb-5">
@@ -725,7 +725,7 @@ function Footer() {
             <h4 className="font-semibold text-white mb-4" style={PF}>Quick Links</h4>
             <ul className="space-y-2">
               {quickLinks.map(x => (
-                <li key={x.h}><a href={x.h} className="text-sm hover:text-amber-400 transition-colors">{x.l}</a></li>
+                <li key={x.h}><a href={x.h} className="text-sm hover:text-purple-400 transition-colors">{x.l}</a></li>
               ))}
             </ul>
           </div>
@@ -733,7 +733,7 @@ function Footer() {
             <h4 className="font-semibold text-white mb-4" style={PF}>Our Services</h4>
             <ul className="space-y-2">
               {services.slice(0, 6).map((s, i) => (
-                <li key={i}><a href="#services" className="text-sm hover:text-amber-400 transition-colors">{s.title}</a></li>
+                <li key={i}><a href="#services" className="text-sm hover:text-purple-400 transition-colors">{s.title}</a></li>
               ))}
             </ul>
           </div>
@@ -743,7 +743,7 @@ function Footer() {
               {openingHours.map(h => (
                 <li key={h.day} className="flex justify-between text-sm">
                   <span>{h.day}</span>
-                  <span className={h.time === 'Closed' ? 'text-red-400' : 'text-amber-400'}>{h.time}</span>
+                  <span className={h.time === 'Closed' ? 'text-red-400' : 'text-purple-400'}>{h.time}</span>
                 </li>
               ))}
             </ul>
@@ -754,8 +754,8 @@ function Footer() {
             &copy; {new Date().getFullYear()} {CLINIC_NAME} Dental Clinic. All Rights Reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href={"tel:" + CLINIC_PHONE} className="text-gray-400 hover:text-amber-400 transition-colors"><Phone className="w-5 h-5" /></a>
-            <a href={"mailto:" + CLINIC_EMAIL} className="text-gray-400 hover:text-amber-400 transition-colors"><Mail className="w-5 h-5" /></a>
+            <a href={"tel:" + CLINIC_PHONE} className="text-gray-400 hover:text-purple-400 transition-colors"><Phone className="w-5 h-5" /></a>
+            <a href={"mailto:" + CLINIC_EMAIL} className="text-gray-400 hover:text-purple-400 transition-colors"><Mail className="w-5 h-5" /></a>
           </div>
         </div>
       </div>
@@ -782,7 +782,7 @@ function WhatsAppButton() {
 function MobileBookButton() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 p-3 lg:hidden shadow-lg">
-      <a href="#book" className="block bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-xl font-semibold text-center transition-all">
+      <a href="#book" className="block bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-semibold text-center transition-all">
         Book Appointment
       </a>
     </div>
