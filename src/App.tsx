@@ -103,7 +103,7 @@ function Navbar() {
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-2">
-                    <img src={BASE + 'logo.svg'} alt="Dantantra Logo" className="w-10 h-10" />
+                    <img src={BASE + 'logo.png'} alt="Dantantra Logo" className="w-10 h-10" />
                     <span className="font-bold text-xl text-purple-800" style={PF}>{CLINIC_NAME}</span>
         </a>
         <nav className="hidden lg:flex items-center gap-8">
@@ -714,7 +714,7 @@ function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-                            <img src={BASE + 'logo.svg'} alt="Dantantra Logo" className="w-10 h-10" />
+                            <img src={BASE + 'logo.png'} alt="Dantantra Logo" className="w-10 h-10" />
                             <span className="font-bold text-xl text-white" style={PF}>{CLINIC_NAME}</span>
             </div>
             <p className="text-sm leading-relaxed mb-4">
