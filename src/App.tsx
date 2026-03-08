@@ -97,7 +97,7 @@ function Navbar() {
     { label: "Contact", href: "#contact" },
   ]
   return (
-    <header className={cn(
+    <header role="banner" className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
       isScrolled ? "bg-white shadow-lg py-2" : "bg-white/90 backdrop-blur-sm py-4"
     )}>
@@ -106,7 +106,7 @@ function Navbar() {
                     <img src={BASE + 'logo.png'} alt="Dantantra Logo" className="w-10 h-10" />
                     <span className="font-bold text-xl text-purple-800" style={PF}>{CLINIC_NAME}</span>
         </a>
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-8">
           {navLinks.map(l => (
             <a key={l.href} href={l.href} className="text-gray-700 hover:text-purple-700 font-medium transition-colors text-sm">{l.label}</a>
           ))}
@@ -120,7 +120,7 @@ function Navbar() {
       </div>
       {isMobileOpen && (
         <div className="lg:hidden bg-white border-t shadow-lg">
-          <nav className="flex flex-col p-4 gap-3">
+          <nav aria-label="Mobile navigation" className="flex flex-col p-4 gap-3">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setIsMobileOpen(false)}
                 className="text-gray-700 hover:text-purple-700 font-medium py-2 px-4 rounded-lg hover:bg-purple-50 transition-colors">
@@ -140,7 +140,7 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20">
+    <section id="home" aria-label="Hero" className="relative min-h-screen flex items-center pt-20">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${BASE}images/hero-dental.jpg)` }}>
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-800/80 to-purple-700/60" />
       </div>
@@ -169,7 +169,7 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" aria-label="About Dr. Rashmeet Kaur" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
@@ -221,7 +221,7 @@ function About() {
 
 function Services() {
   return (
-    <section id="services" className="py-20 bg-gray-50">
+    <section id="services" aria-label="Our dental services" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeading title="Our Specializations" subtitle="Comprehensive dental solutions tailored to your unique needs, delivered with precision and care." />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -588,7 +588,7 @@ function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
+    <section id="contact" aria-label="Contact Dantantra Dental Clinic" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeading title="Contact Us" subtitle="Get in touch with us for any queries. We are here to help!" />
         <div className="grid lg:grid-cols-2 gap-8">
@@ -709,7 +709,7 @@ function Footer() {
     { l: "Contact Us", h: "#contact" },
   ]
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-16 pb-6">
+    <footer role="contentinfo" className="bg-gray-900 text-gray-300 pt-16 pb-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
@@ -754,8 +754,8 @@ function Footer() {
             &copy; {new Date().getFullYear()} {CLINIC_NAME} Dental Clinic. All Rights Reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href={"tel:" + CLINIC_PHONE} className="text-gray-400 hover:text-purple-400 transition-colors"><Phone className="w-5 h-5" /></a>
-            <a href={"mailto:" + CLINIC_EMAIL} className="text-gray-400 hover:text-purple-400 transition-colors"><Mail className="w-5 h-5" /></a>
+            <a href={"tel:" + CLINIC_PHONE} aria-label="Call Dantantra" className="text-gray-400 hover:text-purple-400 transition-colors"><Phone className="w-5 h-5" /></a>
+            <a href={"mailto:" + CLINIC_EMAIL} aria-label="Email Dantantra" className="text-gray-400 hover:text-purple-400 transition-colors"><Mail className="w-5 h-5" /></a>
           </div>
         </div>
       </div>
