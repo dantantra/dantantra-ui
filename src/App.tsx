@@ -4,7 +4,7 @@ import {
   Phone, Mail, MapPin, Clock, Menu, X, ChevronLeft, ChevronRight,
   Heart, Award, Cpu, ClipboardList, IndianRupee, Smile,
   Stethoscope, Sparkles, Baby, Siren, Wrench, Eye, ShieldCheck,
-  Calendar, ChevronDown, ChevronUp, MessageCircle, Send, Instagram, ExternalLink
+  Calendar, ChevronDown, ChevronUp, MessageCircle, Send, Instagram
 } from 'lucide-react'
 import './App.css'
 
@@ -703,54 +703,83 @@ function FAQSection() {
 const INSTAGRAM_USER = 'decode.smile'
 const INSTAGRAM_URL = 'https://www.instagram.com/' + INSTAGRAM_USER + '/'
 
+// Replace these shortcodes with actual Instagram post/reel shortcodes
+// Post URL https://www.instagram.com/p/SHORTCODE/ → use just the SHORTCODE part
+// Reel URL https://www.instagram.com/reel/SHORTCODE/ → use just the SHORTCODE part
+const INSTAGRAM_POSTS: string[] = [
+  // e.g. 'ABC123xyz', 'DEF456uvw', 'GHI789rst'
+]
+const INSTAGRAM_REELS: string[] = [
+  // e.g. 'JKL012opq', 'MNO345lmn', 'PQR678ijk'
+]
+
+function InstagramEmbed({ shortcode, type }: { shortcode: string; type: 'p' | 'reel' }) {
+  return (
+    <iframe
+      src={`https://www.instagram.com/${type}/${shortcode}/embed/`}
+      className="w-full border-0 rounded-xl bg-white"
+      style={{ minHeight: 400, maxWidth: 400 }}
+      allowTransparency
+      loading="lazy"
+      title={`Instagram ${type === 'reel' ? 'reel' : 'post'}`}
+    />
+  )
+}
+
 function InstagramSection() {
+  const hasPosts = INSTAGRAM_POSTS.length > 0
+  const hasReels = INSTAGRAM_REELS.length > 0
   return (
     <section aria-label="Follow us on Instagram" className="py-20 bg-gradient-to-b from-white to-purple-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <SectionHeading title="Follow Us on Instagram" subtitle={`Stay updated with dental tips, smile transformations, and clinic updates @${INSTAGRAM_USER}`} />
-        <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
-          <div className="p-6 sm:p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-full flex items-center justify-center">
-                <Instagram className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-gray-800" style={PF}>@{INSTAGRAM_USER}</h3>
-                <p className="text-gray-500 text-sm">Dental tips &bull; Smile makeovers &bull; Patient stories</p>
-              </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeading title="Follow Us on Instagram" subtitle={`Dental tips, smile transformations & clinic updates @${INSTAGRAM_USER}`} />
+
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-white border border-purple-200 rounded-full py-3 px-6 shadow-sm hover:shadow-md transition-all"
+          >
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-full flex items-center justify-center">
+              <Instagram className="w-5 h-5 text-white" />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-              {[
-                { title: 'Smile Transformations', desc: 'Before & after cases', color: 'from-purple-500 to-purple-700' },
-                { title: 'Dental Tips', desc: 'Oral health advice', color: 'from-pink-500 to-purple-600' },
-                { title: 'Implant Cases', desc: 'Real patient results', color: 'from-purple-600 to-indigo-600' },
-                { title: 'Clinic Updates', desc: 'Latest news & offers', color: 'from-violet-500 to-purple-700' },
-                { title: 'Patient Reviews', desc: 'Happy smiles', color: 'from-purple-500 to-pink-500' },
-                { title: 'Dental Education', desc: 'Learn about treatments', color: 'from-indigo-500 to-purple-600' },
-              ].map((item, i) => (
-                <a
-                  key={i}
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`bg-gradient-to-br ${item.color} rounded-xl p-4 text-white hover:opacity-90 transition-opacity group`}
-                >
-                  <p className="font-semibold text-sm mb-1">{item.title}</p>
-                  <p className="text-xs opacity-80">{item.desc}</p>
-                  <ExternalLink className="w-3.5 h-3.5 mt-2 opacity-60 group-hover:opacity-100 transition-opacity" />
-                </a>
+            <span className="font-semibold text-gray-800" style={PF}>@{INSTAGRAM_USER}</span>
+          </a>
+        </div>
+
+        {hasPosts && (
+          <div className="mb-12">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center" style={PF}>Latest Posts</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+              {INSTAGRAM_POSTS.slice(0, 3).map((code) => (
+                <InstagramEmbed key={code} shortcode={code} type="p" />
               ))}
             </div>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white py-3 px-6 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto sm:mx-auto"
-            >
-              <Instagram className="w-5 h-5" />
-              Follow @{INSTAGRAM_USER}
-            </a>
           </div>
+        )}
+
+        {hasReels && (
+          <div className="mb-10">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center" style={PF}>Latest Reels</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+              {INSTAGRAM_REELS.slice(0, 3).map((code) => (
+                <InstagramEmbed key={code} shortcode={code} type="reel" />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="text-center">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white py-3 px-8 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+          >
+            <Instagram className="w-5 h-5" />
+            Follow @{INSTAGRAM_USER}
+          </a>
         </div>
       </div>
     </section>
