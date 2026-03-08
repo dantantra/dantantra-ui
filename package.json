@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "fetch:instagram": "node scripts/fetch-instagram.mjs || true",
+    "build": "npm run fetch:instagram && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
