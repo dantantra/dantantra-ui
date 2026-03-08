@@ -4,7 +4,7 @@ import {
   Phone, Mail, MapPin, Clock, Menu, X, ChevronLeft, ChevronRight,
   Heart, Award, Cpu, ClipboardList, IndianRupee, Smile,
   Stethoscope, Sparkles, Baby, Siren, Wrench, Eye, ShieldCheck,
-  Calendar, ChevronDown, ChevronUp, MessageCircle, Send, Instagram, ExternalLink
+  Calendar, ChevronDown, ChevronUp, MessageCircle, Send, Instagram
 } from 'lucide-react'
 import './App.css'
 
@@ -703,54 +703,235 @@ function FAQSection() {
 const INSTAGRAM_USER = 'decode.smile'
 const INSTAGRAM_URL = 'https://www.instagram.com/' + INSTAGRAM_USER + '/'
 
+interface InstaItem {
+  shortcode: string
+  isVideo: boolean
+}
+interface InstaFeed {
+  posts: InstaItem[]
+  reels: InstaItem[]
+  fetchedAt: string
+}
+
+const INSTA_CACHE_KEY = 'dantantra_ig_feed'
+const INSTA_CACHE_TTL = 6 * 60 * 60 * 1000 // 6 hours
+
+// Try multiple CORS proxies in order until one works
+const CORS_PROXIES = [
+  (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  (url: string) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+]
+
+const INSTA_API_URL = `https://www.instagram.com/api/v1/users/web_profile_info/?username=${INSTAGRAM_USER}`
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function parseInstagramData(json: any): InstaFeed {
+  const user = json?.data?.user
+  if (!user) throw new Error('No user data')
+
+  const edges: any[] = user.edge_owner_to_timeline_media?.edges || []
+  const posts: InstaItem[] = []
+  const reels: InstaItem[] = []
+
+  for (const edge of edges) {
+    const n = edge.node
+    const item: InstaItem = { shortcode: n.shortcode, isVideo: !!n.is_video }
+    if (n.is_video || n.__typename === 'GraphVideo') {
+      if (reels.length < 3) reels.push(item)
+    } else {
+      if (posts.length < 3) posts.push(item)
+    }
+    if (posts.length >= 3 && reels.length >= 3) break
+  }
+
+  // Also check dedicated reels tab
+  if (reels.length < 3) {
+    const reelEdges: any[] = user.edge_felix_video_timeline?.edges || []
+    for (const edge of reelEdges) {
+      const n = edge.node
+      if (reels.some(r => r.shortcode === n.shortcode)) continue
+      reels.push({ shortcode: n.shortcode, isVideo: true })
+      if (reels.length >= 3) break
+    }
+  }
+
+  return { posts, reels, fetchedAt: new Date().toISOString() }
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+async function fetchInstagramLive(): Promise<InstaFeed | null> {
+  const headers: Record<string, string> = {
+    'x-ig-app-id': '936619743392459',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  }
+
+  // Try direct fetch first (works in build-time / same-origin scenarios)
+  try {
+    const res = await fetch(INSTA_API_URL, { headers })
+    if (res.ok) return parseInstagramData(await res.json())
+  } catch { /* CORS expected in browser, try proxies */ }
+
+  // Try CORS proxies
+  for (const makeUrl of CORS_PROXIES) {
+    try {
+      const res = await fetch(makeUrl(INSTA_API_URL), {
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        return parseInstagramData(data)
+      }
+    } catch { /* try next proxy */ }
+  }
+  return null
+}
+
+function getCachedFeed(): InstaFeed | null {
+  try {
+    const raw = localStorage.getItem(INSTA_CACHE_KEY)
+    if (!raw) return null
+    const cached = JSON.parse(raw) as InstaFeed & { cachedAt: number }
+    if (Date.now() - cached.cachedAt > INSTA_CACHE_TTL) return null // expired
+    return cached
+  } catch { return null }
+}
+
+function cacheFeed(feed: InstaFeed) {
+  try {
+    localStorage.setItem(INSTA_CACHE_KEY, JSON.stringify({ ...feed, cachedAt: Date.now() }))
+  } catch { /* localStorage full or unavailable */ }
+}
+
+function useInstagramFeed() {
+  const [feed, setFeed] = useState<InstaFeed>({ posts: [], reels: [], fetchedAt: '' })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      // 1. Check localStorage cache first
+      const cached = getCachedFeed()
+      if (cached && (cached.posts.length > 0 || cached.reels.length > 0)) {
+        if (!cancelled) { setFeed(cached); setLoading(false) }
+        // Still try to refresh in background
+        fetchInstagramLive().then(live => {
+          if (live && !cancelled && (live.posts.length > 0 || live.reels.length > 0)) {
+            setFeed(live)
+            cacheFeed(live)
+          }
+        }).catch(() => {})
+        return
+      }
+
+      // 2. Try live fetch
+      const live = await fetchInstagramLive()
+      if (live && !cancelled && (live.posts.length > 0 || live.reels.length > 0)) {
+        setFeed(live)
+        cacheFeed(live)
+        setLoading(false)
+        return
+      }
+
+      // 3. Fall back to static JSON from build time
+      try {
+        const res = await fetch(BASE + 'instagram-feed.json')
+        const data = await res.json()
+        if (!cancelled) {
+          setFeed({ posts: data.posts || [], reels: data.reels || [], fetchedAt: data.fetchedAt || '' })
+        }
+      } catch { /* no fallback available */ }
+
+      if (!cancelled) setLoading(false)
+    }
+
+    load()
+    return () => { cancelled = true }
+  }, [])
+
+  return { feed, loading }
+}
+
+function InstagramEmbed({ shortcode, type }: { shortcode: string; type: 'p' | 'reel' }) {
+  return (
+    <iframe
+      src={`https://www.instagram.com/${type}/${shortcode}/embed/`}
+      className="w-full border-0 rounded-xl bg-white"
+      style={{ minHeight: 420, maxWidth: 400 }}
+      allowTransparency
+      loading="lazy"
+      title={`Instagram ${type === 'reel' ? 'reel' : 'post'}`}
+    />
+  )
+}
+
 function InstagramSection() {
+  const { feed, loading } = useInstagramFeed()
+  const hasPosts = feed.posts.length > 0
+  const hasReels = feed.reels.length > 0
+  const hasContent = hasPosts || hasReels
+
   return (
     <section aria-label="Follow us on Instagram" className="py-20 bg-gradient-to-b from-white to-purple-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <SectionHeading title="Follow Us on Instagram" subtitle={`Stay updated with dental tips, smile transformations, and clinic updates @${INSTAGRAM_USER}`} />
-        <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
-          <div className="p-6 sm:p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-full flex items-center justify-center">
-                <Instagram className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-gray-800" style={PF}>@{INSTAGRAM_USER}</h3>
-                <p className="text-gray-500 text-sm">Dental tips &bull; Smile makeovers &bull; Patient stories</p>
-              </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeading title="Follow Us on Instagram" subtitle={`Dental tips, smile transformations & clinic updates @${INSTAGRAM_USER}`} />
+
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-white border border-purple-200 rounded-full py-3 px-6 shadow-sm hover:shadow-md transition-all"
+          >
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-full flex items-center justify-center">
+              <Instagram className="w-5 h-5 text-white" />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-              {[
-                { title: 'Smile Transformations', desc: 'Before & after cases', color: 'from-purple-500 to-purple-700' },
-                { title: 'Dental Tips', desc: 'Oral health advice', color: 'from-pink-500 to-purple-600' },
-                { title: 'Implant Cases', desc: 'Real patient results', color: 'from-purple-600 to-indigo-600' },
-                { title: 'Clinic Updates', desc: 'Latest news & offers', color: 'from-violet-500 to-purple-700' },
-                { title: 'Patient Reviews', desc: 'Happy smiles', color: 'from-purple-500 to-pink-500' },
-                { title: 'Dental Education', desc: 'Learn about treatments', color: 'from-indigo-500 to-purple-600' },
-              ].map((item, i) => (
-                <a
-                  key={i}
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`bg-gradient-to-br ${item.color} rounded-xl p-4 text-white hover:opacity-90 transition-opacity group`}
-                >
-                  <p className="font-semibold text-sm mb-1">{item.title}</p>
-                  <p className="text-xs opacity-80">{item.desc}</p>
-                  <ExternalLink className="w-3.5 h-3.5 mt-2 opacity-60 group-hover:opacity-100 transition-opacity" />
-                </a>
+            <span className="font-semibold text-gray-800" style={PF}>@{INSTAGRAM_USER}</span>
+          </a>
+        </div>
+
+        {loading && (
+          <div className="flex justify-center py-10">
+            <div className="w-8 h-8 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+          </div>
+        )}
+
+        {!loading && hasPosts && (
+          <div className="mb-12">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center" style={PF}>Latest Posts</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+              {feed.posts.slice(0, 3).map((item) => (
+                <InstagramEmbed key={item.shortcode} shortcode={item.shortcode} type="p" />
               ))}
             </div>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white py-3 px-6 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto sm:mx-auto"
-            >
-              <Instagram className="w-5 h-5" />
-              Follow @{INSTAGRAM_USER}
-            </a>
           </div>
+        )}
+
+        {!loading && hasReels && (
+          <div className="mb-10">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center" style={PF}>Latest Reels</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+              {feed.reels.slice(0, 3).map((item) => (
+                <InstagramEmbed key={item.shortcode} shortcode={item.shortcode} type="reel" />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!loading && !hasContent && (
+          <p className="text-center text-gray-500 mb-8 text-sm">Visit our Instagram to see the latest dental tips, transformations & more!</p>
+        )}
+
+        <div className="text-center">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white py-3 px-8 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+          >
+            <Instagram className="w-5 h-5" />
+            Follow @{INSTAGRAM_USER}
+          </a>
         </div>
       </div>
     </section>
