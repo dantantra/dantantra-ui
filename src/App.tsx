@@ -4,7 +4,7 @@ import {
   Phone, Mail, MapPin, Clock, Menu, X, ChevronLeft, ChevronRight,
   Heart, Award, Cpu, ClipboardList, IndianRupee, Smile,
   Stethoscope, Sparkles, Baby, Siren, Wrench, Eye, ShieldCheck,
-  Calendar, ChevronDown, ChevronUp, MessageCircle, Send
+  Calendar, ChevronDown, ChevronUp, MessageCircle, Send, Instagram, ExternalLink
 } from 'lucide-react'
 import './App.css'
 
@@ -97,7 +97,7 @@ function Navbar() {
     { label: "Contact", href: "#contact" },
   ]
   return (
-    <header className={cn(
+    <header role="banner" className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
       isScrolled ? "bg-white shadow-lg py-2" : "bg-white/90 backdrop-blur-sm py-4"
     )}>
@@ -106,7 +106,7 @@ function Navbar() {
                     <img src={BASE + 'logo.png'} alt="Dantantra Logo" className="w-10 h-10" />
                     <span className="font-bold text-xl text-purple-800" style={PF}>{CLINIC_NAME}</span>
         </a>
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-8">
           {navLinks.map(l => (
             <a key={l.href} href={l.href} className="text-gray-700 hover:text-purple-700 font-medium transition-colors text-sm">{l.label}</a>
           ))}
@@ -120,7 +120,7 @@ function Navbar() {
       </div>
       {isMobileOpen && (
         <div className="lg:hidden bg-white border-t shadow-lg">
-          <nav className="flex flex-col p-4 gap-3">
+          <nav aria-label="Mobile navigation" className="flex flex-col p-4 gap-3">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setIsMobileOpen(false)}
                 className="text-gray-700 hover:text-purple-700 font-medium py-2 px-4 rounded-lg hover:bg-purple-50 transition-colors">
@@ -140,7 +140,7 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20">
+    <section id="home" aria-label="Hero" className="relative min-h-screen flex items-center pt-20">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${BASE}images/hero-dental.jpg)` }}>
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-800/80 to-purple-700/60" />
       </div>
@@ -169,7 +169,7 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" aria-label="About Dr. Rashmeet Kaur" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
@@ -221,7 +221,7 @@ function About() {
 
 function Services() {
   return (
-    <section id="services" className="py-20 bg-gray-50">
+    <section id="services" aria-label="Our dental services" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeading title="Our Specializations" subtitle="Comprehensive dental solutions tailored to your unique needs, delivered with precision and care." />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -588,7 +588,7 @@ function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
+    <section id="contact" aria-label="Contact Dantantra Dental Clinic" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeading title="Contact Us" subtitle="Get in touch with us for any queries. We are here to help!" />
         <div className="grid lg:grid-cols-2 gap-8">
@@ -700,6 +700,63 @@ function FAQSection() {
   )
 }
 
+const INSTAGRAM_USER = 'decode.smile'
+const INSTAGRAM_URL = 'https://www.instagram.com/' + INSTAGRAM_USER + '/'
+
+function InstagramSection() {
+  return (
+    <section aria-label="Follow us on Instagram" className="py-20 bg-gradient-to-b from-white to-purple-50">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <SectionHeading title="Follow Us on Instagram" subtitle={`Stay updated with dental tips, smile transformations, and clinic updates @${INSTAGRAM_USER}`} />
+        <div className="bg-white rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
+          <div className="p-6 sm:p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-full flex items-center justify-center">
+                <Instagram className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-gray-800" style={PF}>@{INSTAGRAM_USER}</h3>
+                <p className="text-gray-500 text-sm">Dental tips &bull; Smile makeovers &bull; Patient stories</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+              {[
+                { title: 'Smile Transformations', desc: 'Before & after cases', color: 'from-purple-500 to-purple-700' },
+                { title: 'Dental Tips', desc: 'Oral health advice', color: 'from-pink-500 to-purple-600' },
+                { title: 'Implant Cases', desc: 'Real patient results', color: 'from-purple-600 to-indigo-600' },
+                { title: 'Clinic Updates', desc: 'Latest news & offers', color: 'from-violet-500 to-purple-700' },
+                { title: 'Patient Reviews', desc: 'Happy smiles', color: 'from-purple-500 to-pink-500' },
+                { title: 'Dental Education', desc: 'Learn about treatments', color: 'from-indigo-500 to-purple-600' },
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`bg-gradient-to-br ${item.color} rounded-xl p-4 text-white hover:opacity-90 transition-opacity group`}
+                >
+                  <p className="font-semibold text-sm mb-1">{item.title}</p>
+                  <p className="text-xs opacity-80">{item.desc}</p>
+                  <ExternalLink className="w-3.5 h-3.5 mt-2 opacity-60 group-hover:opacity-100 transition-opacity" />
+                </a>
+              ))}
+            </div>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white py-3 px-6 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto sm:mx-auto"
+            >
+              <Instagram className="w-5 h-5" />
+              Follow @{INSTAGRAM_USER}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Footer() {
   const quickLinks = [
     { l: "Home", h: "#home" },
@@ -709,7 +766,7 @@ function Footer() {
     { l: "Contact Us", h: "#contact" },
   ]
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-16 pb-6">
+    <footer role="contentinfo" className="bg-gray-900 text-gray-300 pt-16 pb-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
@@ -754,8 +811,9 @@ function Footer() {
             &copy; {new Date().getFullYear()} {CLINIC_NAME} Dental Clinic. All Rights Reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href={"tel:" + CLINIC_PHONE} className="text-gray-400 hover:text-purple-400 transition-colors"><Phone className="w-5 h-5" /></a>
-            <a href={"mailto:" + CLINIC_EMAIL} className="text-gray-400 hover:text-purple-400 transition-colors"><Mail className="w-5 h-5" /></a>
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Follow Dantantra on Instagram" className="text-gray-400 hover:text-purple-400 transition-colors"><Instagram className="w-5 h-5" /></a>
+            <a href={"tel:" + CLINIC_PHONE} aria-label="Call Dantantra" className="text-gray-400 hover:text-purple-400 transition-colors"><Phone className="w-5 h-5" /></a>
+            <a href={"mailto:" + CLINIC_EMAIL} aria-label="Email Dantantra" className="text-gray-400 hover:text-purple-400 transition-colors"><Mail className="w-5 h-5" /></a>
           </div>
         </div>
       </div>
@@ -802,6 +860,7 @@ function App() {
       <BookAppointment />
       <Contact />
       <FAQSection />
+      <InstagramSection />
       <Footer />
       <WhatsAppButton />
       <MobileBookButton />
